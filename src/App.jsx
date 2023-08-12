@@ -7,25 +7,37 @@ function App () {
   const [fact, setFact] = useState()
   const [catImg, setCatImg] = useState()
 
+  // recuperar cita
   useEffect(() => {
     fetch(CAT_ENDPOINT_RANDOM_FACT)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Error fetching fact') // manejo de errores
+        return res.json()
+      })
       .then(data => {
         const { fact } = data
         setFact(fact)
+      })
+      .catch((err) => { // tratamiento del error tanto si hay un error con la respuesta como con la peticion
 
-        const firstWord = fact.split(' ', 1).join()
-        console.log(firstWord)
-
-        fetch(`https://cataas.com/cat/says/${firstWord}?json=true`)
-          .then(res => res.json())
-          .then(data => {
-            const { url } = data
-            console.log(url)
-            setCatImg(url)
-          })
       })
   }, [])
+
+  // recuperar imagen con cita nueva
+  useEffect(() => {
+    if (!fact) return
+
+    const firstWord = fact.split(' ', 1).join()
+    console.log(firstWord)
+
+    fetch(`https://cataas.com/cat/says/${firstWord}?json=true`)
+      .then(res => res.json())
+      .then(data => {
+        const { url } = data
+        console.log(url)
+        setCatImg(url)
+      })
+  }, [fact])
 
   return (
     <main>
