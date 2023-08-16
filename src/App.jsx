@@ -18,9 +18,6 @@ function App () {
         const { fact } = data
         setFact(fact)
       })
-      .catch((err) => { // tratamiento del error tanto si hay un error con la respuesta como con la peticion
-
-      })
   }, [])
 
   // recuperar imagen con cita nueva
@@ -44,6 +41,7 @@ function App () {
       <h1>App gatitos</h1>
       {fact && <p>{fact}</p>}
       {catImg && <img src={`${CAT_PREFIX_IMAGE_URL}${catImg}`} alt='cat img with catfact' />}
+      <button onclick={}>Get new fact</button>
     </main>
   )
 }
