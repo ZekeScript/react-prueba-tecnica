@@ -10,10 +10,7 @@ function App () {
   // recuperar cita
   useEffect(() => {
     fetch(CAT_ENDPOINT_RANDOM_FACT)
-      .then(res => {
-        if (!res.ok) throw new Error('Error fetching fact') // manejo de errores
-        return res.json()
-      })
+      .then(res => res.json())
       .then(data => {
         const { fact } = data
         setFact(fact)
@@ -36,12 +33,21 @@ function App () {
       })
   }, [fact])
 
+  const handleCLick = () => {
+    fetch(CAT_ENDPOINT_RANDOM_FACT)
+      .then(res => res.json())
+      .then(data => {
+        const { fact } = data
+        setFact(fact)
+      })
+  }
+
   return (
     <main>
       <h1>App gatitos</h1>
+      <button onClick={handleCLick}>Get new fact</button>
       {fact && <p>{fact}</p>}
       {catImg && <img src={`${CAT_PREFIX_IMAGE_URL}${catImg}`} alt='cat img with catfact' />}
-      <button onclick={}>Get new fact</button>
     </main>
   )
 }
